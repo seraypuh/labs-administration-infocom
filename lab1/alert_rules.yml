@@ -1,0 +1,44 @@
+groups:
+  - name: observability-alerts
+
+    rules:
+
+      - alert: HighErrorRate
+        expr: |
+          100 *
+          sum(rate(http_errors_total[1m]))
+          /
+          sum(rate(http_requests_total[1m]))
+          > 5
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Высокая доля ошибок"
+          description: "Доля HTTP-ошибок выше 5%"
+
+      - alert: HighRequestRate
+        expr: |
+          sum(rate(http_requests_total[1m])) > 10
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Высокая нагрузка"
+          description: "RPS превышает 10 запросов в секунду"
+
+      - alert: HighP95Latency
+        expr: |
+          1000 *
+          histogram_quantile(
+            0.95,
+            sum by (le) (
+              rate(http_response_duration_seconds_bucket[5m])
+            )
+          ) > 1000
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Высокая задержка"
+          description: "p95 времени ответа превышает 1 секунду"

@@ -1,0 +1,10 @@
+global:
+  resolve_timeout: 1m
+
+route:
+  receiver: webhook
+
+receivers:
+  - name: webhook
+    webhook_configs:
+      - url: http://webhook:5001/
