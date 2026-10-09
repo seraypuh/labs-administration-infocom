@@ -2,3 +2,10 @@
 
 В этом репозитории находятся лабораторные по этому предмету.
 
+### lab 1
+
+Мониторинг: Prometheus, Grafana, Loki, Jaeger, Alertmanager
+
+### lab 2
+
+Брокер: Kafka
